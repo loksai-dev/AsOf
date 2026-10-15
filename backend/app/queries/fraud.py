@@ -58,27 +58,53 @@ def detect_provider_clusters(
         except Exception as e:
             logger.warning("Native algo.WCC error: %s. Using Cypher traversal.", e)
 
-    # Bi-temporal Cypher traversal with strict validity intervals
-    # Filters both sys_from <= $ts AND $ts < sys_to on edges and claims, and validates sys_to on nodes
+    # Pure Graph-Engine Cypher Traversal & Clustering
+    # Multi-hop path expansion performed directly inside FalkorDB (no Python BFS loops)
+    # Enforces strict bi-temporal validity on claims, edges, and provider/shop nodes
     cypher_query = """
-    MATCH (pr:Provider)<-[hb:HANDLED_BY]-(c:Claim)-[ra:REPAIRED_AT]->(s:Shop)
+    MATCH (c:Claim)
+    WHERE c.sys_from <= $ts AND $ts < c.sys_to
+    MATCH (c)-[:HANDLED_BY|REPAIRED_AT*0..6]-(other:Claim)
+    WHERE other.sys_from <= $ts AND $ts < other.sys_to
+    MATCH (other)-[hb:HANDLED_BY]->(pr:Provider)
+    MATCH (other)-[ra:REPAIRED_AT]->(s:Shop)
     WHERE hb.sys_from <= $ts AND $ts < hb.sys_to
       AND ra.sys_from <= $ts AND $ts < ra.sys_to
-      AND c.sys_from  <= $ts AND $ts < c.sys_to
       AND (pr.sys_to IS NULL OR $ts < pr.sys_to)
-      AND (s.sys_to  IS NULL OR $ts < s.sys_to)
-      AND hb.valid_from <= c.valid_from AND c.valid_from < hb.valid_to
-      AND ra.valid_from <= c.valid_from AND c.valid_from < ra.valid_to
-    RETURN pr.id, pr.name, pr.specialty,
-           s.id, s.name,
-           c.id, c.claim_number, c.amount, c.sys_from, c.status
-    ORDER BY c.sys_from ASC
+      AND (s.sys_to IS NULL OR $ts < s.sys_to)
+      AND hb.valid_from <= other.valid_from AND other.valid_from < hb.valid_to
+      AND ra.valid_from <= other.valid_from AND other.valid_from < ra.valid_to
+    WITH c, min(other.id) AS root,
+         collect(distinct {
+             id: other.id,
+             claim_number: other.claim_number,
+             amount: other.amount,
+             sys_from: other.sys_from,
+             status: other.status,
+             provider_id: pr.id,
+             shop_id: s.id
+         }) AS clm_list,
+         collect(distinct {
+             id: pr.id,
+             name: pr.name,
+             specialty: pr.specialty
+         }) AS prv_list,
+         collect(distinct {
+             id: s.id,
+             name: s.name
+         }) AS shp_list
+    WITH root,
+         head(collect(clm_list)) AS claims,
+         head(collect(prv_list)) AS providers,
+         head(collect(shp_list)) AS shops
+    WHERE size(claims) >= $min_claims
+    RETURN root, claims, providers, shops
     """
-    res = g.query(cypher_query, params={"ts": target_ts})
+    res = g.query(cypher_query, params={"ts": target_ts, "min_claims": min_claims})
     if not res.result_set:
         return []
 
-    return _process_bipartite_results(res.result_set, min_claims, target_ts)
+    return _process_cypher_clusters(res.result_set, min_claims, target_ts)
 
 
 _RECENT_CLUSTERS: Dict[str, Dict[str, Any]] = {}
@@ -149,85 +175,47 @@ def _process_wcc_results(rows: list, min_claims: int, target_ts: int) -> List[Di
     return clusters
 
 
-def _process_bipartite_results(rows: list, min_claims: int, target_ts: int) -> List[Dict[str, Any]]:
-    """Build connected components from bi-temporal Cypher query results."""
-    adjacency = defaultdict(set)
-    provider_details = {}
-    shop_details = {}
-    claim_details = {}
-    claim_pairs = []
-
-    for row in rows:
-        pr_id, pr_name, pr_spec, s_id, s_name, c_id, c_num, c_amt, c_sys, c_status = row
-        provider_details[pr_id] = {"id": pr_id, "name": pr_name, "specialty": pr_spec}
-        shop_details[s_id] = {"id": s_id, "name": s_name}
-        claim_details[c_id] = {
-            "id": c_id,
-            "claim_number": c_num,
-            "amount": c_amt,
-            "sys_from": c_sys,
-            "sys_from_iso": to_iso(c_sys),
-            "status": c_status,
-            "provider_id": pr_id,
-            "shop_id": s_id,
-        }
-        adjacency[pr_id].add(s_id)
-        adjacency[s_id].add(pr_id)
-        claim_pairs.append((pr_id, s_id, c_id))
-
-    visited = set()
-    components = []
-
-    for node in list(adjacency.keys()):
-        if node not in visited:
-            comp_nodes = set()
-            queue = [node]
-            visited.add(node)
-            while queue:
-                curr = queue.pop(0)
-                comp_nodes.add(curr)
-                for neighbor in adjacency[curr]:
-                    if neighbor not in visited:
-                        visited.add(neighbor)
-                        queue.append(neighbor)
-            components.append(comp_nodes)
-
+def _process_cypher_clusters(rows: list, min_claims: int, target_ts: int) -> List[Dict[str, Any]]:
+    """Format connected components aggregated directly inside FalkorDB's graph engine."""
     clusters: List[Dict[str, Any]] = []
-    for idx, comp in enumerate(components, 1):
-        comp_providers = [p for p in comp if p in provider_details]
-        comp_shops = [s for s in comp if s in shop_details]
 
-        comp_claims = [
-            claim_details[c_id]
-            for pr_id, s_id, c_id in claim_pairs
-            if pr_id in comp and s_id in comp
-        ]
-        unique_claims = {c["id"]: c for c in comp_claims}.values()
-        claim_list = sorted(list(unique_claims), key=lambda x: x["sys_from"])
+    for idx, row in enumerate(rows, 1):
+        root_id, raw_claims, raw_providers, raw_shops = row
 
-        total_claims = len(claim_list)
-        total_billed = sum(c["amount"] for c in claim_list)
+        # Normalize dictionary records returned by Cypher
+        claims = [dict(c) for c in raw_claims]
+        for c in claims:
+            if "sys_from" in c and c["sys_from"]:
+                c["sys_from_iso"] = to_iso(c["sys_from"])
+
+        providers = [dict(p) for p in raw_providers]
+        shops = [dict(s) for s in raw_shops]
+
+        claims_sorted = sorted(claims, key=lambda x: x.get("sys_from", 0))
+        total_claims = len(claims_sorted)
+        total_billed = sum(c.get("amount", 0.0) or 0.0 for c in claims_sorted)
 
         is_suspicious = (
             total_claims >= min_claims
-            and len(comp_providers) >= 2
-            and len(comp_shops) >= 2
+            and len(providers) >= 2
+            and len(shops) >= 2
         )
 
         c_data = {
             "cluster_id": f"CLUSTER-{idx:02d}",
-            "algorithm": "bitemporal_cypher_wcc",
+            "canonical_root_id": root_id,
+            "algorithm": "cypher_graph_engine_wcc",
             "is_suspicious": is_suspicious,
             "evaluated_as_of_ts": target_ts,
             "evaluated_as_of_iso": to_iso(target_ts),
-            "total_entities": len(comp_providers) + len(comp_shops),
-            "total_providers": len(comp_providers),
-            "total_shops": len(comp_shops),
+            "total_entities": len(providers) + len(shops),
+            "total_providers": len(providers),
+            "total_shops": len(shops),
             "total_claims": total_claims,
             "total_billed_amount": round(total_billed, 2),
-            "providers": [provider_details[p] for p in comp_providers],
-            "shops": [shop_details[s] for s in comp_shops],
-            "claims": claim_list,
+            "providers": providers,
+            "shops": shops,
+            "claims": claims_sorted,
         }
         clusters.append(c_data)
 

@@ -175,17 +175,43 @@ Report whether the outcome changes.
 
 ## Agent and MCP tools
 
-The agent loop lets an LLM choose tools and write a short explanation grounded only in tool outputs. **Coverage decisions come from the graph, not from the LLM.** The agent never receives data newer than the `ts` it is given.
+The agent loop lets an LLM select tools and write an explanation grounded exclusively in tool outputs. **Coverage decisions come deterministically from the graph, not from the LLM.**
+
+### Temporal Firewall
+The agent tools enforce a zero-trust **Temporal Firewall** via `TemporalContext`:
+1. **No Time Parameters for the Model**: Tools accept only business entities (`claim_id`, `policy_id`, etc.). Valid-time (`tv`) and system knowledge-time (`ts`) are injected exclusively by the runtime environment.
+2. **Ceiling Enforcement**: If a prompt attempts to override or manipulate timestamps, the firewall asserts `ts <= ts_ceiling`. Any violation raises `FirewallViolationError` immediately.
+3. **Graph Provenance**: Every agent evaluation creates an `(ar:AgentRun)` node connected via `[:RAN_TOOL {order}]` to `(tc:ToolCall)` nodes storing tool arguments, outputs, and latencies in FalkorDB.
 
 | Tool | Purpose |
 | --- | --- |
-| `get_policy_as_of(policy_id, tv, ts)` | Policy state at a valid time and knowledge time |
-| `trace_coverage_path(claim_id, tv, ts)` | Multi-hop path from claim to covering clause |
-| `find_late_facts(claim_id, decision_ts)` | Facts recorded after the decision |
-| `detect_provider_clusters()` | Suspicious provider and shop clusters |
-| `decide_claim(claim_id, tv, ts)` | Approve, deny or escalate, with evidence path |
-| `replay_decision(claim_id)` | Compare decision as made vs. as now known |
-| `flag_for_review(claim_id, reason)` | Create a review flag node in the graph |
+| `get_policy_as_of(policy_id)` | Policy state, limits, and endorsements as-of context time |
+| `trace_coverage_path(claim_id)` | Multi-hop path from claim to covering clause |
+| `find_late_facts(claim_id)` | Facts valid at incident time but recorded after decision time |
+| `detect_provider_clusters(min_claims)` | Connected provider-shop clusters sharing claims |
+| `decide_claim(claim_id)` | Execute deterministic decision rules with graph evidence path |
+| `replay_decision(claim_id)` | Compare decision as originally made vs. as now known |
+| `flag_for_review(claim_id, reason, flag_type)` | Create a `ReviewFlag` node linked to the claim in FalkorDB |
+
+### Claude Desktop Integration (`claude_desktop_config.json`)
+
+To inspect and adjudicate claims directly in Claude Desktop or any MCP-compatible client:
+
+```json
+{
+  "mcpServers": {
+    "asof": {
+      "command": "python",
+      "args": ["-m", "backend.app.mcp.server"],
+      "env": {
+        "FALKORDB_HOST": "localhost",
+        "FALKORDB_PORT": "6379",
+        "FALKORDB_GRAPH": "asof"
+      }
+    }
+  }
+}
+```
 
 ## Hero scenario
 
@@ -273,14 +299,16 @@ Open `http://localhost:3000`.
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| GET | `/health` | Service health |
-| GET | `/claims` | List claims (filter by status) |
+| GET | `/health` | Service health & FalkorDB ping |
+| GET | `/claims` | List claims (filter by status, type) |
 | GET | `/claims/{id}` | Claim details |
-| GET | `/claims/{id}/as-of?tv=&ts=` | Verdict, evidence path and graph for a time pair |
+| GET | `/claims/{id}/as-of?tv=&ts=` | Verdict, evidence path, and dynamic UI graph (`known`, `not_yet_known`, `superseded`) |
 | GET | `/claims/{id}/replay` | Decision as made vs. as now known |
-| POST | `/claims/{id}/decide` | Run the agent |
-| POST | `/claims/{id}/flag` | Create a review flag |
-| GET | `/fraud/clusters` | Detected provider clusters |
+| POST | `/claims/{id}/decide` | Deterministic claim decision (with optional commit) |
+| POST | `/claims/{id}/flag` | Create a review flag attached in FalkorDB |
+| GET | `/fraud/clusters` | Connected provider-shop clusters sharing claims |
+| GET | `/fraud/clusters/{id}/timing` | Earliest time each claim in the cluster became visible |
+| POST | `/agent/run` | Run autonomous agent loop under Temporal Firewall with graph provenance |
 | POST | `/benchmark/run` | Run the benchmark |
 | GET | `/benchmark/results` | Latest benchmark results |
 
