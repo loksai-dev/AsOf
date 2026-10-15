@@ -109,7 +109,11 @@ def decide_claim(claim_id: str, tv: int, ts: int) -> Dict[str, Any]:
     }
 
 
-def replay_decision(claim_id: str, current_ts: Optional[int] = None) -> Dict[str, Any]:
+def replay_decision(
+    claim_id: str,
+    current_ts: Optional[int] = None,
+    decision_ts: Optional[int] = None,
+) -> Dict[str, Any]:
     """Compare the historical decision as made with the decision as now known.
     
     Cypher Query Explanation:
@@ -138,12 +142,12 @@ def replay_decision(claim_id: str, current_ts: Optional[int] = None) -> Dict[str
         if not c_res.result_set:
             return {"error": f"Claim '{claim_id}' not found"}
         incident_tv = c_res.result_set[0][0]
-        original_ts = c_res.result_set[0][1]
+        original_ts = decision_ts if decision_ts is not None else c_res.result_set[0][1]
         historical_outcome = "PENDING"
     else:
         row = res.result_set[0]
         historical_outcome = row[1]
-        original_ts = row[3]
+        original_ts = decision_ts if decision_ts is not None else row[3]
         incident_tv = row[4]
 
     # Step 2: Evaluate decision at original decision time

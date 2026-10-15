@@ -38,6 +38,9 @@ def to_epoch_ms(val: Union[int, float, str, datetime]) -> int:
     raise ValueError(f"Cannot convert {val} of type {type(val)} to epoch milliseconds")
 
 
+parse_timestamp = to_epoch_ms
+
+
 def to_iso(epoch_ms: int) -> str:
     """Convert integer epoch milliseconds to ISO 8601 UTC string.
 

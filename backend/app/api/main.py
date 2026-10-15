@@ -7,6 +7,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.app.db.connection import ping_db, settings
 from backend.app.db.schema import init_schema
 
+from backend.app.api.claims import router as claims_router
+from backend.app.api.fraud import router as fraud_router
+from backend.app.api.agent import router as agent_router
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -40,6 +44,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(claims_router)
+app.include_router(fraud_router)
+app.include_router(agent_router)
 
 
 @app.get("/health")
