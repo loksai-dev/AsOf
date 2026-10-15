@@ -1,0 +1,1665 @@
+{
+  "metadata": {
+    "seed": 42,
+    "year": 2026,
+    "total_policyholders": 50,
+    "total_policies": 51,
+    "total_claims": 200,
+    "total_providers": 23,
+    "total_shops": 23,
+    "total_decisions": 191,
+    "total_edges": 826,
+    "is_synthetic": true
+  },
+  "ground_truth": {
+    "CLM-HERO-001": {
+      "scenario": "HERO_SCENARIO",
+      "incident_ts": 1780669800000,
+      "decision_ts": 1780916400000,
+      "replay_ts": 1781179200000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "late_fact_count": 4
+    },
+    "CLM-LATE-001": {
+      "scenario": "LATE_FILED",
+      "incident_ts": 1773590400000,
+      "filing_ts": 1786788000000,
+      "expected_at_incident_tv": "APPROVED",
+      "expected_without_bitemporal": "DENIED_POLICY_EXPIRED"
+    },
+    "CLM-RING-01": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-01",
+      "shop": "SHP-RING-01",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-02": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-01",
+      "shop": "SHP-RING-02",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-03": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-02",
+      "shop": "SHP-RING-02",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-04": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-02",
+      "shop": "SHP-RING-03",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-05": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-03",
+      "shop": "SHP-RING-01",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-06": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-03",
+      "shop": "SHP-RING-03",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-07": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-01",
+      "shop": "SHP-RING-03",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "CLM-RING-08": {
+      "scenario": "FRAUD_RING",
+      "is_fraud": true,
+      "provider": "PRV-RING-02",
+      "shop": "SHP-RING-01",
+      "expected_decision": "ESCALATE",
+      "reason": "Connected provider-shop fraud cluster detected"
+    },
+    "fraud_ring_metadata": {
+      "provider_ids": [
+        "PRV-RING-01",
+        "PRV-RING-02",
+        "PRV-RING-03"
+      ],
+      "shop_ids": [
+        "SHP-RING-01",
+        "SHP-RING-02",
+        "SHP-RING-03"
+      ],
+      "claim_ids": [
+        "CLM-RING-01",
+        "CLM-RING-02",
+        "CLM-RING-03",
+        "CLM-RING-04",
+        "CLM-RING-05",
+        "CLM-RING-06",
+        "CLM-RING-07",
+        "CLM-RING-08"
+      ],
+      "first_detectable_ts": 1778922000000,
+      "first_detectable_iso": "2026-05-16T09:00:00Z"
+    },
+    "CLM-IMP-001": {
+      "scenario": "IMPACT_SCENARIO",
+      "incident_ts": 1783087200000,
+      "decision_ts": 1783335600000,
+      "replay_ts": 1784980800000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "trigger_event": "EVT-BACKDATED-HAIL"
+    },
+    "CLM-IMP-002": {
+      "scenario": "IMPACT_SCENARIO",
+      "incident_ts": 1783441800000,
+      "decision_ts": 1783605600000,
+      "replay_ts": 1784980800000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "trigger_event": "EVT-BACKDATED-HAIL"
+    },
+    "CLM-IMP-003": {
+      "scenario": "IMPACT_SCENARIO",
+      "incident_ts": 1783252800000,
+      "decision_ts": 1783504800000,
+      "replay_ts": 1784980800000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "trigger_event": "EVT-BACKDATED-HAIL"
+    },
+    "CLM-IMP-004": {
+      "scenario": "IMPACT_SCENARIO",
+      "incident_ts": 1783876500000,
+      "decision_ts": 1784041200000,
+      "replay_ts": 1784980800000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "trigger_event": "EVT-BACKDATED-HAIL"
+    },
+    "CLM-IMP-005": {
+      "scenario": "IMPACT_SCENARIO",
+      "incident_ts": 1783683900000,
+      "decision_ts": 1783958400000,
+      "replay_ts": 1784980800000,
+      "expected_at_decision_ts": "DENIED",
+      "expected_at_replay_ts": "APPROVED",
+      "trigger_event": "EVT-BACKDATED-HAIL"
+    },
+    "impact_scenario_summary": {
+      "trigger_event_id": "EVT-BACKDATED-HAIL",
+      "endorsement_id": "END-IMP-HAIL",
+      "event_valid_from": 1782864000000,
+      "event_sys_from": 1784541600000,
+      "affected_claim_ids": [
+        "CLM-IMP-001",
+        "CLM-IMP-002",
+        "CLM-IMP-003",
+        "CLM-IMP-004",
+        "CLM-IMP-005"
+      ],
+      "affected_policies": [
+        "POL-IMP-001",
+        "POL-IMP-002",
+        "POL-IMP-003"
+      ],
+      "prior_decision": "DENIED",
+      "flipped_decision": "APPROVED"
+    },
+    "CLM-001": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786452900000,
+      "filing_ts": 1786539300000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-024"
+    },
+    "CLM-002": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791706020000,
+      "filing_ts": 1791965220000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-042"
+    },
+    "CLM-003": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786564200000,
+      "filing_ts": 1786823400000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-026"
+    },
+    "CLM-004": {
+      "scenario": "NORMAL",
+      "incident_ts": 1778316300000,
+      "filing_ts": 1778661900000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-017"
+    },
+    "CLM-005": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774186740000,
+      "filing_ts": 1774445940000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-044"
+    },
+    "CLM-006": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783970280000,
+      "filing_ts": 1784402280000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-029"
+    },
+    "CLM-007": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781369580000,
+      "filing_ts": 1781455980000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-034"
+    },
+    "CLM-008": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795267740000,
+      "filing_ts": 1795613340000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-023"
+    },
+    "CLM-009": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776849480000,
+      "filing_ts": 1777281480000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-023"
+    },
+    "CLM-010": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779793740000,
+      "filing_ts": 1779880140000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-015"
+    },
+    "CLM-011": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794080640000,
+      "filing_ts": 1794426240000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-040"
+    },
+    "CLM-012": {
+      "scenario": "NORMAL",
+      "incident_ts": 1772052960000,
+      "filing_ts": 1772139360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-025"
+    },
+    "CLM-013": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779960540000,
+      "filing_ts": 1780133340000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-021"
+    },
+    "CLM-014": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789934220000,
+      "filing_ts": 1790366220000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-043"
+    },
+    "CLM-015": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789476480000,
+      "filing_ts": 1789649280000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-038"
+    },
+    "CLM-016": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774268100000,
+      "filing_ts": 1774527300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-041"
+    },
+    "CLM-017": {
+      "scenario": "NORMAL",
+      "incident_ts": 1778699340000,
+      "filing_ts": 1779217740000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-044"
+    },
+    "CLM-018": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789373580000,
+      "filing_ts": 1789978380000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-036"
+    },
+    "CLM-019": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794582000000,
+      "filing_ts": 1794841200000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-047"
+    },
+    "CLM-020": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781449260000,
+      "filing_ts": 1781794860000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-044"
+    },
+    "CLM-021": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776700860000,
+      "filing_ts": 1777046460000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-035"
+    },
+    "CLM-022": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777389060000,
+      "filing_ts": 1777475460000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-002"
+    },
+    "CLM-023": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784989020000,
+      "filing_ts": 1785593820000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-030"
+    },
+    "CLM-024": {
+      "scenario": "NORMAL",
+      "incident_ts": 1790946840000,
+      "filing_ts": 1791465240000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-015"
+    },
+    "CLM-025": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779871140000,
+      "filing_ts": 1780043940000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-IMP-003"
+    },
+    "CLM-026": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782393000000,
+      "filing_ts": 1782825000000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-017"
+    },
+    "CLM-027": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773910740000,
+      "filing_ts": 1774169940000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-017"
+    },
+    "CLM-028": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777830240000,
+      "filing_ts": 1778435040000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-034"
+    },
+    "CLM-029": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795681320000,
+      "filing_ts": 1796113320000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-029"
+    },
+    "CLM-030": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782917520000,
+      "filing_ts": 1783263120000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-033"
+    },
+    "CLM-031": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786044780000,
+      "filing_ts": 1786563180000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-033"
+    },
+    "CLM-032": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794232440000,
+      "filing_ts": 1794405240000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-044"
+    },
+    "CLM-033": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795199040000,
+      "filing_ts": 1795458240000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-038"
+    },
+    "CLM-034": {
+      "scenario": "NORMAL",
+      "incident_ts": 1785068460000,
+      "filing_ts": 1785327660000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-030"
+    },
+    "CLM-035": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777808760000,
+      "filing_ts": 1778154360000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-027"
+    },
+    "CLM-036": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770120840000,
+      "filing_ts": 1770466440000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-040"
+    },
+    "CLM-037": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791816420000,
+      "filing_ts": 1792248420000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-047"
+    },
+    "CLM-038": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777921920000,
+      "filing_ts": 1778181120000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-039"
+    },
+    "CLM-039": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788982620000,
+      "filing_ts": 1789587420000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-021"
+    },
+    "CLM-040": {
+      "scenario": "NORMAL",
+      "incident_ts": 1780924260000,
+      "filing_ts": 1781183460000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-028"
+    },
+    "CLM-041": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771418640000,
+      "filing_ts": 1771591440000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-044"
+    },
+    "CLM-042": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789120980000,
+      "filing_ts": 1789380180000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-IMP-001"
+    },
+    "CLM-043": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770288660000,
+      "filing_ts": 1770720660000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-035"
+    },
+    "CLM-044": {
+      "scenario": "NORMAL",
+      "incident_ts": 1787248200000,
+      "filing_ts": 1787680200000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-025"
+    },
+    "CLM-045": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782667620000,
+      "filing_ts": 1782926820000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-034"
+    },
+    "CLM-046": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779362160000,
+      "filing_ts": 1779880560000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-047": {
+      "scenario": "NORMAL",
+      "incident_ts": 1775053680000,
+      "filing_ts": 1775572080000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-025"
+    },
+    "CLM-048": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782227040000,
+      "filing_ts": 1782745440000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-028"
+    },
+    "CLM-049": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791482940000,
+      "filing_ts": 1791742140000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-047"
+    },
+    "CLM-050": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795543080000,
+      "filing_ts": 1795802280000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-051": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781713860000,
+      "filing_ts": 1782059460000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-039"
+    },
+    "CLM-052": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770118980000,
+      "filing_ts": 1770723780000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-037"
+    },
+    "CLM-053": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776357660000,
+      "filing_ts": 1776703260000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-IMP-002"
+    },
+    "CLM-054": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789222860000,
+      "filing_ts": 1789482060000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-037"
+    },
+    "CLM-055": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782139920000,
+      "filing_ts": 1782744720000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-031"
+    },
+    "CLM-056": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783196700000,
+      "filing_ts": 1783801500000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-039"
+    },
+    "CLM-057": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779025140000,
+      "filing_ts": 1779629940000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-044"
+    },
+    "CLM-058": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791203280000,
+      "filing_ts": 1791721680000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-038"
+    },
+    "CLM-059": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781771700000,
+      "filing_ts": 1782117300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-050"
+    },
+    "CLM-060": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776367080000,
+      "filing_ts": 1776799080000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-017"
+    },
+    "CLM-061": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791209520000,
+      "filing_ts": 1791641520000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-040"
+    },
+    "CLM-062": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786480320000,
+      "filing_ts": 1786739520000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-063": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789744920000,
+      "filing_ts": 1790004120000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-029"
+    },
+    "CLM-064": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779536160000,
+      "filing_ts": 1779881760000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-034"
+    },
+    "CLM-065": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786647000000,
+      "filing_ts": 1787251800000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-003"
+    },
+    "CLM-066": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794390900000,
+      "filing_ts": 1794995700000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-IMP-003"
+    },
+    "CLM-067": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776190140000,
+      "filing_ts": 1776276540000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-043"
+    },
+    "CLM-068": {
+      "scenario": "NORMAL",
+      "incident_ts": 1785264840000,
+      "filing_ts": 1785696840000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-031"
+    },
+    "CLM-069": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771578900000,
+      "filing_ts": 1772097300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-050"
+    },
+    "CLM-070": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773571440000,
+      "filing_ts": 1773830640000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-015"
+    },
+    "CLM-071": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784024100000,
+      "filing_ts": 1784456100000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-030"
+    },
+    "CLM-072": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795876740000,
+      "filing_ts": 1796395140000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-021"
+    },
+    "CLM-073": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781527320000,
+      "filing_ts": 1781613720000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-047"
+    },
+    "CLM-074": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784464800000,
+      "filing_ts": 1784810400000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-044"
+    },
+    "CLM-075": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788521040000,
+      "filing_ts": 1788953040000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-029"
+    },
+    "CLM-076": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786264560000,
+      "filing_ts": 1786869360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-028"
+    },
+    "CLM-077": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779308520000,
+      "filing_ts": 1779481320000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-041"
+    },
+    "CLM-078": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770755280000,
+      "filing_ts": 1770841680000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-079": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784902260000,
+      "filing_ts": 1785075060000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-080": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782575460000,
+      "filing_ts": 1782834660000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-033"
+    },
+    "CLM-081": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779993960000,
+      "filing_ts": 1780512360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-082": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770653220000,
+      "filing_ts": 1770998820000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-033"
+    },
+    "CLM-083": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783188840000,
+      "filing_ts": 1783534440000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-026"
+    },
+    "CLM-084": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779356400000,
+      "filing_ts": 1779961200000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-045"
+    },
+    "CLM-085": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770035460000,
+      "filing_ts": 1770121860000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-029"
+    },
+    "CLM-086": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784749440000,
+      "filing_ts": 1785181440000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-044"
+    },
+    "CLM-087": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789913820000,
+      "filing_ts": 1790000220000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-019"
+    },
+    "CLM-088": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783189380000,
+      "filing_ts": 1783621380000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-038"
+    },
+    "CLM-089": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774710300000,
+      "filing_ts": 1775228700000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-035"
+    },
+    "CLM-090": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777223580000,
+      "filing_ts": 1777309980000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-091": {
+      "scenario": "NORMAL",
+      "incident_ts": 1778530140000,
+      "filing_ts": 1779134940000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-047"
+    },
+    "CLM-092": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791576660000,
+      "filing_ts": 1791663060000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-027"
+    },
+    "CLM-093": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779195660000,
+      "filing_ts": 1779368460000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-001"
+    },
+    "CLM-094": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773676140000,
+      "filing_ts": 1773935340000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-018"
+    },
+    "CLM-095": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793649000000,
+      "filing_ts": 1794253800000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-016"
+    },
+    "CLM-096": {
+      "scenario": "NORMAL",
+      "incident_ts": 1790605620000,
+      "filing_ts": 1791124020000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-039"
+    },
+    "CLM-097": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784541840000,
+      "filing_ts": 1784714640000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-038"
+    },
+    "CLM-098": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794918540000,
+      "filing_ts": 1795350540000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-050"
+    },
+    "CLM-099": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792841220000,
+      "filing_ts": 1793186820000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-016"
+    },
+    "CLM-100": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773238800000,
+      "filing_ts": 1773757200000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-031"
+    },
+    "CLM-101": {
+      "scenario": "NORMAL",
+      "incident_ts": 1772546760000,
+      "filing_ts": 1773065160000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-019"
+    },
+    "CLM-102": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792330920000,
+      "filing_ts": 1792417320000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-045"
+    },
+    "CLM-103": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794315960000,
+      "filing_ts": 1794747960000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-037"
+    },
+    "CLM-104": {
+      "scenario": "NORMAL",
+      "incident_ts": 1785255780000,
+      "filing_ts": 1785342180000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-040"
+    },
+    "CLM-105": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795200060000,
+      "filing_ts": 1795632060000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-024"
+    },
+    "CLM-106": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781182800000,
+      "filing_ts": 1781355600000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-027"
+    },
+    "CLM-107": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770147180000,
+      "filing_ts": 1770319980000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-035"
+    },
+    "CLM-108": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782308940000,
+      "filing_ts": 1782740940000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-039"
+    },
+    "CLM-109": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793642700000,
+      "filing_ts": 1793901900000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-110": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786276080000,
+      "filing_ts": 1786708080000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-037"
+    },
+    "CLM-111": {
+      "scenario": "NORMAL",
+      "incident_ts": 1794847320000,
+      "filing_ts": 1795106520000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-037"
+    },
+    "CLM-112": {
+      "scenario": "NORMAL",
+      "incident_ts": 1780862880000,
+      "filing_ts": 1781467680000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-035"
+    },
+    "CLM-113": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786011840000,
+      "filing_ts": 1786443840000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-017"
+    },
+    "CLM-114": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771057740000,
+      "filing_ts": 1771144140000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-032"
+    },
+    "CLM-115": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786353900000,
+      "filing_ts": 1786440300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-037"
+    },
+    "CLM-116": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783090440000,
+      "filing_ts": 1783176840000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-049"
+    },
+    "CLM-117": {
+      "scenario": "NORMAL",
+      "incident_ts": 1787921220000,
+      "filing_ts": 1788180420000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-047"
+    },
+    "CLM-118": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773763920000,
+      "filing_ts": 1774368720000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-020"
+    },
+    "CLM-119": {
+      "scenario": "NORMAL",
+      "incident_ts": 1780828680000,
+      "filing_ts": 1781001480000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-019"
+    },
+    "CLM-120": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795627680000,
+      "filing_ts": 1796146080000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-050"
+    },
+    "CLM-121": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783263840000,
+      "filing_ts": 1783609440000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-050"
+    },
+    "CLM-122": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784279940000,
+      "filing_ts": 1784625540000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-029"
+    },
+    "CLM-123": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774027920000,
+      "filing_ts": 1774373520000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-033"
+    },
+    "CLM-124": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795260000000,
+      "filing_ts": 1795692000000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-IMP-003"
+    },
+    "CLM-125": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784799120000,
+      "filing_ts": 1785317520000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-019"
+    },
+    "CLM-126": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793971380000,
+      "filing_ts": 1794230580000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-038"
+    },
+    "CLM-127": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783083960000,
+      "filing_ts": 1783515960000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-031"
+    },
+    "CLM-128": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795345080000,
+      "filing_ts": 1795604280000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-048"
+    },
+    "CLM-129": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773159840000,
+      "filing_ts": 1773678240000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-035"
+    },
+    "CLM-130": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786971660000,
+      "filing_ts": 1787230860000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-043"
+    },
+    "CLM-131": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788779280000,
+      "filing_ts": 1788952080000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-023"
+    },
+    "CLM-132": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793899440000,
+      "filing_ts": 1794072240000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-016"
+    },
+    "CLM-133": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771076580000,
+      "filing_ts": 1771594980000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-049"
+    },
+    "CLM-134": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788884100000,
+      "filing_ts": 1789143300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-049"
+    },
+    "CLM-135": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782397920000,
+      "filing_ts": 1782829920000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-046"
+    },
+    "CLM-136": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771689300000,
+      "filing_ts": 1771948500000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-022"
+    },
+    "CLM-137": {
+      "scenario": "NORMAL",
+      "incident_ts": 1775750220000,
+      "filing_ts": 1776182220000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-043"
+    },
+    "CLM-138": {
+      "scenario": "NORMAL",
+      "incident_ts": 1782914580000,
+      "filing_ts": 1783260180000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-015"
+    },
+    "CLM-139": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783498800000,
+      "filing_ts": 1783585200000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-025"
+    },
+    "CLM-140": {
+      "scenario": "NORMAL",
+      "incident_ts": 1790160480000,
+      "filing_ts": 1790678880000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-018"
+    },
+    "CLM-141": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779878100000,
+      "filing_ts": 1780396500000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-001"
+    },
+    "CLM-142": {
+      "scenario": "NORMAL",
+      "incident_ts": 1778403780000,
+      "filing_ts": 1778576580000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-037"
+    },
+    "CLM-143": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789920060000,
+      "filing_ts": 1790438460000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-049"
+    },
+    "CLM-144": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771593300000,
+      "filing_ts": 1772025300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-025"
+    },
+    "CLM-145": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792342200000,
+      "filing_ts": 1792774200000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-015"
+    },
+    "CLM-146": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786538820000,
+      "filing_ts": 1786625220000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-034"
+    },
+    "CLM-147": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774460820000,
+      "filing_ts": 1775065620000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-032"
+    },
+    "CLM-148": {
+      "scenario": "NORMAL",
+      "incident_ts": 1777322580000,
+      "filing_ts": 1777668180000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-003"
+    },
+    "CLM-149": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788351120000,
+      "filing_ts": 1788437520000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-021"
+    },
+    "CLM-150": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792152120000,
+      "filing_ts": 1792756920000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-030"
+    },
+    "CLM-151": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784040420000,
+      "filing_ts": 1784386020000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-152": {
+      "scenario": "NORMAL",
+      "incident_ts": 1785082620000,
+      "filing_ts": 1785687420000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-021"
+    },
+    "CLM-153": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776514800000,
+      "filing_ts": 1776601200000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-037"
+    },
+    "CLM-154": {
+      "scenario": "NORMAL",
+      "incident_ts": 1786044480000,
+      "filing_ts": 1786303680000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-028"
+    },
+    "CLM-155": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770144000000,
+      "filing_ts": 1770489600000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-032"
+    },
+    "CLM-156": {
+      "scenario": "NORMAL",
+      "incident_ts": 1795379280000,
+      "filing_ts": 1795465680000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-020"
+    },
+    "CLM-157": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793639340000,
+      "filing_ts": 1794157740000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-033"
+    },
+    "CLM-158": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793895780000,
+      "filing_ts": 1794241380000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-033"
+    },
+    "CLM-159": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771929060000,
+      "filing_ts": 1772361060000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-027"
+    },
+    "CLM-160": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788801480000,
+      "filing_ts": 1789319880000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-017"
+    },
+    "CLM-161": {
+      "scenario": "NORMAL",
+      "incident_ts": 1788468180000,
+      "filing_ts": 1789072980000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-162": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781088300000,
+      "filing_ts": 1781606700000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-032"
+    },
+    "CLM-163": {
+      "scenario": "NORMAL",
+      "incident_ts": 1779790500000,
+      "filing_ts": 1780395300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-042"
+    },
+    "CLM-164": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791222960000,
+      "filing_ts": 1791309360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-033"
+    },
+    "CLM-165": {
+      "scenario": "NORMAL",
+      "incident_ts": 1787850240000,
+      "filing_ts": 1788023040000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-035"
+    },
+    "CLM-166": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791802560000,
+      "filing_ts": 1792407360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-ROADSIDE",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-167": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776185880000,
+      "filing_ts": 1776790680000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-047"
+    },
+    "CLM-168": {
+      "scenario": "NORMAL",
+      "incident_ts": 1775934840000,
+      "filing_ts": 1776194040000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-043"
+    },
+    "CLM-169": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791542400000,
+      "filing_ts": 1791801600000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-015"
+    },
+    "CLM-170": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793875320000,
+      "filing_ts": 1794307320000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-042"
+    },
+    "CLM-171": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770108060000,
+      "filing_ts": 1770712860000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COLLISION",
+      "policy_id": "POL-046"
+    },
+    "CLM-172": {
+      "scenario": "NORMAL",
+      "incident_ts": 1771266840000,
+      "filing_ts": 1771526040000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-023"
+    },
+    "CLM-173": {
+      "scenario": "NORMAL",
+      "incident_ts": 1774253400000,
+      "filing_ts": 1774599000000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-025"
+    },
+    "CLM-174": {
+      "scenario": "NORMAL",
+      "incident_ts": 1775935200000,
+      "filing_ts": 1776453600000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-WATER",
+      "policy_id": "POL-039"
+    },
+    "CLM-175": {
+      "scenario": "NORMAL",
+      "incident_ts": 1773228540000,
+      "filing_ts": 1773314940000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-176": {
+      "scenario": "NORMAL",
+      "incident_ts": 1781371560000,
+      "filing_ts": 1781544360000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-025"
+    },
+    "CLM-177": {
+      "scenario": "NORMAL",
+      "incident_ts": 1776356940000,
+      "filing_ts": 1776702540000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-046"
+    },
+    "CLM-178": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792062780000,
+      "filing_ts": 1792494780000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-IMP-002"
+    },
+    "CLM-179": {
+      "scenario": "NORMAL",
+      "incident_ts": 1789056000000,
+      "filing_ts": 1789660800000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-CORR-001"
+    },
+    "CLM-180": {
+      "scenario": "NORMAL",
+      "incident_ts": 1783000980000,
+      "filing_ts": 1783432980000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-026"
+    },
+    "CLM-181": {
+      "scenario": "NORMAL",
+      "incident_ts": 1792096500000,
+      "filing_ts": 1792355700000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-033"
+    },
+    "CLM-182": {
+      "scenario": "NORMAL",
+      "incident_ts": 1784382480000,
+      "filing_ts": 1784555280000,
+      "expected_decision": "APPROVED",
+      "required_coverage": "COV-COMPREHENSIVE",
+      "policy_id": "POL-018"
+    },
+    "CLM-183": {
+      "scenario": "NORMAL",
+      "incident_ts": 1770029100000,
+      "filing_ts": 1770288300000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-RENTAL",
+      "policy_id": "POL-042"
+    },
+    "CLM-184": {
+      "scenario": "NORMAL",
+      "incident_ts": 1791208740000,
+      "filing_ts": 1791640740000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-GLASS",
+      "policy_id": "POL-039"
+    },
+    "CLM-185": {
+      "scenario": "NORMAL",
+      "incident_ts": 1793118840000,
+      "filing_ts": 1793464440000,
+      "expected_decision": "DENIED",
+      "required_coverage": "COV-BODILY-INJURY",
+      "policy_id": "POL-035"
+    }
+  }
+}
