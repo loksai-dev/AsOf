@@ -19,10 +19,11 @@ class Settings(BaseSettings):
     api_host: str = "0.0.0.0"
     api_port: int = 8000
     llm_provider: str = "mock"
+    groq_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
     gemini_api_key: Optional[str] = None
-    llm_model: str = "gpt-4o-mini"
+    llm_model: str = "openai/gpt-oss-120b"
 
     model_config = SettingsConfigDict(
         env_file=(".env", "../.env"),

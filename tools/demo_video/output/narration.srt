@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:18,960
+Welcome to AsOf, a bi-temporal claims decision agent built for Graph Hacks, competing in the Agents That Act on Connected Data track. In insurance, facts change after decisions are made. Traditional systems store only current state, making it impossible to answer: was the decision right, given what we knew then?
+
+2
+00:00:18,960 --> 00:00:42,528
+We ingest a retroactive flash flood endorsement effective June first, but recorded on June tenth. AsOf launches a live bi-temporal graph scan. Across 25 claims evaluated, 22 past denial is affected. The agent automatically attaches reconsideration flags with grounded audit notes, protecting policyholders from unnoticed wrong decisions.
+
+3
+00:00:42,528 --> 00:01:07,800
+Let us inspect claim CLM-HERO-001. On June eighth, the claim was denied. Notice on the graph that the endorsement node is faded and marked 'not yet known'. Now, watch what happens as we drag the system-time slider to June eleventh. As the system learns of the retroactive endorsement, the verdict flips to approved, and the evidence path lights up. Both records remain permanently preserved.
+
+4
+00:01:07,800 --> 00:01:28,512
+AsOf exposes its reasoning through the Model Context Protocol. The autonomous agent selects tools dynamically based on claim type. Here, our clean MCP client connects to the FastMCP server, lists the seven bi-temporal tools, and evaluates the claim directly on FalkorDB under strict server-managed temporal coordinates.
+
+5
+00:01:28,512 --> 00:01:48,528
+Why is a graph essential? Coverage resolution is a multi-hop traversal from claim to policy, endorsement, and coverage clause. Furthermore, FalkorDB detects connected provider-shop rings using graph algorithms. Clicking View Cypher reveals the exact parameterized queries executed in the database engine.
+
+6
+00:01:48,528 --> 00:02:10,560
+Trust requires mathematical verification. Every verdict generates a cryptographic SHA-256 receipt node. If anyone maliciously alters a database record, the cryptographic audit immediately trips. Next, when an adversarial prompt attempts to breach the time ceiling, our Temporal Firewall prevents future-information leakage.
+
+7
+00:02:10,560 --> 00:02:24,624
+Our benchmark compares Latest-State agents against AsOf. While latest-state models suffer from 0 future-data leaks, AsOf achieves zero leaks and 92.0 percent accuracy. Reconstruct the past. Know what the system knew.

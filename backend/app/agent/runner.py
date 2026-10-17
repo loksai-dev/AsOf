@@ -66,6 +66,109 @@ class AgentRunResult:
         }
 
 
+def generate_llm_explanation(
+    claim_id: str,
+    outcome: str,
+    tools_called: List[Dict[str, Any]],
+    context: Dict[str, Any],
+    fallback_explanation: str,
+) -> str:
+    """Generate a bi-temporally grounded explanation using the configured LLM provider (e.g. Groq).
+    
+    Adheres strictly to AsOf principles:
+    1. Coverage and outcomes are ALREADY determined deterministically by graph queries.
+    2. The LLM's role is explanation synthesis ONLY, grounded strictly in tool outputs.
+    3. If the LLM provider fails, times out, or is set to 'mock', safely falls back to deterministic template.
+    """
+    provider = (settings.llm_provider or "").lower().strip()
+    if provider in ("mock", "none", ""):
+        return fallback_explanation
+
+    try:
+        summaries = [
+            f"- Tool: {tc['tool_name']}, Inputs: {tc['inputs']}, Output: {tc['output_summary']}"
+            for tc in tools_called
+        ]
+        tool_context_str = "\n".join(summaries)
+
+        system_prompt = (
+            "You are AsOf's bi-temporal claims explanation agent. "
+            "A deterministic claim evaluation has completed on the FalkorDB graph. "
+            "Your job is to provide a concise, factual 2-3 sentence explanation of the verdict "
+            "grounded EXCLUSIVELY in the provided tool outputs and temporal coordinates. "
+            "Do NOT speculate, do NOT contradict the deterministic outcome, and do NOT mention future facts."
+        )
+
+        user_content = (
+            f"Claim ID: {claim_id}\n"
+            f"Adjudication Outcome: {outcome}\n"
+            f"Valid Time (Tv): {context.get('tv_iso')}\n"
+            f"Knowledge Time (Ts): {context.get('ts_iso')}\n"
+            f"Tool Execution Trace:\n{tool_context_str}\n\n"
+            f"Synthesize a clear, grounded explanation for this claim decision."
+        )
+
+        if provider == "groq" and settings.groq_api_key:
+            import httpx
+            headers = {
+                "Authorization": f"Bearer {settings.groq_api_key}",
+                "Content-Type": "application/json",
+            }
+            payload = {
+                "model": settings.llm_model or "openai/gpt-oss-120b",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                "temperature": 0.2,
+                "max_tokens": 200,
+            }
+            with httpx.Client(timeout=10.0) as client:
+                resp = client.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers=headers,
+                    json=payload,
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    choices = data.get("choices", [])
+                    if choices and choices[0].get("message", {}).get("content"):
+                        return choices[0]["message"]["content"].strip()
+                else:
+                    logger.warning("Groq API returned status %s: %s", resp.status_code, resp.text[:200])
+
+        elif provider == "openai" and settings.openai_api_key:
+            import httpx
+            headers = {
+                "Authorization": f"Bearer {settings.openai_api_key}",
+                "Content-Type": "application/json",
+            }
+            payload = {
+                "model": settings.llm_model or "gpt-4o-mini",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_content},
+                ],
+                "temperature": 0.2,
+                "max_tokens": 200,
+            }
+            with httpx.Client(timeout=10.0) as client:
+                resp = client.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers=headers,
+                    json=payload,
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    choices = data.get("choices", [])
+                    if choices and choices[0].get("message", {}).get("content"):
+                        return choices[0]["message"]["content"].strip()
+    except Exception as e:
+        logger.warning("LLM explanation generation encountered an exception, using fallback: %s", e)
+
+    return fallback_explanation
+
+
 def run_agent_decision_loop(
     claim_id: str,
     prompt: Optional[str] = None,
@@ -197,6 +300,24 @@ def run_agent_decision_loop(
             f"as of system knowledge time {to_iso(eff_ts)}. "
             f"Decision outcome: {outcome}. Deterministic reason: {decision_data.get('reasons', ['Standard evaluation'])[0]}."
         )
+
+    temporal_context = {
+        "tv": eff_tv,
+        "tv_iso": to_iso(eff_tv),
+        "ts": eff_ts,
+        "ts_iso": to_iso(eff_ts),
+        "ts_ceiling": eff_ceiling,
+        "ts_ceiling_iso": to_iso(eff_ceiling),
+    }
+
+    # Step 2.5: Synthesize grounded explanation with configured LLM (e.g. Groq) if enabled
+    explanation = generate_llm_explanation(
+        claim_id=claim_id,
+        outcome=outcome,
+        tools_called=tools_called,
+        context=temporal_context,
+        fallback_explanation=explanation,
+    )
 
     total_latency_ms = round((time.time() - start_time) * 1000, 2)
     run_id = f"RUN-{claim_id}-{int(time.time() * 1000)}"

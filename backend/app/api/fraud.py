@@ -19,7 +19,7 @@ def get_fraud_clusters(
     
     Includes UI graph payloads and query logs for transparency.
     """
-    parsed_ts = parse_timestamp(ts) if ts is not None else None
+    parsed_ts = parse_timestamp(ts) if (ts is not None and isinstance(ts, (int, str))) else None
     target_ts = parsed_ts if parsed_ts is not None else SENTINEL_MAX
 
     clusters_raw = detect_provider_clusters(min_claims=min_claims, ts=parsed_ts)
@@ -59,8 +59,8 @@ def get_fraud_clusters(
 
         cluster_summaries.append(
             ClusterSummary(
-                cluster_id=c["cluster_id"],
-                canonical_root_id=c.get("canonical_root_id") or c.get("falkordb_component_id"),
+                cluster_id=str(c["cluster_id"]),
+                canonical_root_id=str(c.get("canonical_root_id") or c.get("falkordb_component_id") or ""),
                 is_suspicious=c.get("is_suspicious", False),
                 algorithm=c.get("algorithm", "bitemporal_cypher_wcc"),
                 evaluated_as_of_ts=c.get("evaluated_as_of_ts"),

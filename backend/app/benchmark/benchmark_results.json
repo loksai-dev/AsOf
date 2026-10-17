@@ -1,0 +1,93 @@
+{
+  "timestamp": 1792145490032,
+  "claims_scanned": 25,
+  "decisions_changed": 22,
+  "latest_state_leaks": 0,
+  "asof_leaks": 0,
+  "latest_state_accuracy": 4.0,
+  "asof_accuracy": 92.0,
+  "latency_p50_ms": 544.6,
+  "latency_p95_ms": 624.0,
+  "results_sample": [
+    {
+      "claim_id": "CLM-001",
+      "asof_outcome": "ESCALATE",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": false,
+      "future_leakage": false,
+      "latency_ms": 300.46
+    },
+    {
+      "claim_id": "CLM-002",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 551.61
+    },
+    {
+      "claim_id": "CLM-003",
+      "asof_outcome": "ESCALATE",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": false,
+      "future_leakage": false,
+      "latency_ms": 301.77
+    },
+    {
+      "claim_id": "CLM-004",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "DENIED",
+      "outcome_changed": false,
+      "future_leakage": false,
+      "latency_ms": 483.77
+    },
+    {
+      "claim_id": "CLM-005",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 544.63
+    },
+    {
+      "claim_id": "CLM-006",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 627.08
+    },
+    {
+      "claim_id": "CLM-007",
+      "asof_outcome": "APPROVED",
+      "latest_outcome": "DENIED",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 534.7
+    },
+    {
+      "claim_id": "CLM-008",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 533.93
+    },
+    {
+      "claim_id": "CLM-009",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 583.37
+    },
+    {
+      "claim_id": "CLM-010",
+      "asof_outcome": "DENIED",
+      "latest_outcome": "ESCALATE",
+      "outcome_changed": true,
+      "future_leakage": false,
+      "latency_ms": 526.36
+    }
+  ]
+}

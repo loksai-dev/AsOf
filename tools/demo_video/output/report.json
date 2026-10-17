@@ -1,0 +1,21 @@
+{
+  "video_path": "tools/demo_video/output/demo.mp4",
+  "file_size_mb": 6.26,
+  "duration_seconds": 150.2,
+  "duration_formatted": "2m 30s (150.2s)",
+  "audio_stream_present": true,
+  "privacy_audit_passed": true,
+  "recorded_scenes": [
+    "Hook",
+    "Impact Scan",
+    "Hero Claim",
+    "Agent and MCP",
+    "Why a Graph",
+    "Trust and Firewall",
+    "Results and Close"
+  ],
+  "skipped_scenes": [],
+  "resolution": "1920x1080",
+  "video_codec": "H.264",
+  "audio_codec": "AAC"
+}
